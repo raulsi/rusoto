@@ -117,6 +117,10 @@ pub struct PublishRequest {
     /// <p>The name of the MQTT topic.</p>
     #[serde(rename = "topic")]
     pub topic: String,
+    #[serde(rename = "engpoint_prefix")]
+    #[doc = "<p>The endpoint to which messages will be sent. Looks like <code>1234567890123-ats.iot.us-east-1.amazonaws.com</code>.</p>"]
+    pub engpoint_prefix: Option<String>,
+    
 }
 
 /// <p>The input for the UpdateThingShadow operation.</p>
@@ -705,7 +709,11 @@ impl IotData for IotDataClient {
         let mut request = SignedRequest::new("POST", "iotdata", &self.region, &request_uri);
         request.set_content_type("application/x-amz-json-1.1".to_owned());
 
-        request.set_endpoint_prefix("data.iot".to_string());
+        request.set_endpoint_prefix(
+            input
+                .engpoint_prefix
+                .unwrap_or_else(|| "data.iot".to_owned()),
+        );
         let encoded = if let Some(ref payload) = input.payload {
             Some(payload.to_owned())
         } else {
