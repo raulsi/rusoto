@@ -563,7 +563,7 @@ impl IotDataClient {
         }
     }
 
-    pub fn new_default_region() -> Result<IotDataClient, ParseRegionError> {
+    pub fn new_default_region() -> IotDataClient {
         let region = region::Region::default();
         IotDataClient::new(region)
     }
