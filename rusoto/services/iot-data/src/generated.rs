@@ -564,7 +564,7 @@ impl IotDataClient {
     }
 
     pub fn new_default_region() -> IotDataClient {
-        let region = region::Region::default();
+        let region = region::Region::EuWest3;
         IotDataClient::new(region)
     }
 
